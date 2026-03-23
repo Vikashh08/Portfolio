@@ -6,9 +6,12 @@
       "destination": "/server/index.js"
     },
     {
-      "source": "/((?!api/).*)",
-      "destination": "/client/dist/$1",
-      "continue": true
+      "source": "/assets/(.*)",
+      "destination": "/client/dist/assets/$1"
+    },
+    {
+      "source": "/(.*\\.(?:js|css|png|jpg|jpeg|svg|pdf|json|ico|webp|gif))$",
+      "destination": "/client/dist/$1"
     },
     {
       "source": "/((?!api/).*)",
