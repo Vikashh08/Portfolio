@@ -27,10 +27,10 @@ const MailIcon = () => (
 );
 
 const socials = [
-  { label: 'GitHub',    href: 'https://github.com/vikashh08',    icon: <GithubIcon /> },
-  { label: 'LinkedIn',  href: 'https://www.linkedin.com/in/vikashh-kumar/', icon: <LinkedinIcon /> },
-  { label: 'Email',     href: 'mailto:vikashroy2333@gmail.com',         icon: <MailIcon /> },
-  { label: 'LeetCode',  href: 'https://leetcode.com',  icon: <LeetcodeIcon /> },
+  { label: 'GitHub', href: 'https://github.com/vikashh08', icon: <GithubIcon /> },
+  { label: 'LinkedIn', href: 'https://www.linkedin.com/in/vikashh-kumar/', icon: <LinkedinIcon /> },
+  { label: 'Email', href: 'mailto:vikashroy2333@gmail.com', icon: <MailIcon /> },
+  { label: 'LeetCode', href: 'https://leetcode.com', icon: <LeetcodeIcon /> },
 ];
 
 const techStack = [
@@ -48,10 +48,7 @@ const Hero = () => {
   // --- STRICT TYPING ANIMATION STATE ---
   const fullName = "Vikash Kumar.";
   const roles = ['Full Stack Developer', 'Competitive Programmer', 'CSE Student'];
-  
-  const [typedName, setTypedName] = useState('');
-  const [nameFinished, setNameFinished] = useState(false);
-  
+
   const [typedRole, setTypedRole] = useState('');
   const [roleIndex, setRoleIndex] = useState(0);
   const [isDeletingRole, setIsDeletingRole] = useState(false);
@@ -61,22 +58,9 @@ const Hero = () => {
     return () => clearTimeout(timer);
   }, []);
 
-  // 1. Classic Character-by-Character Typing for Name
+  // Loop Sequence for Roles
   useEffect(() => {
-    let timeout;
-    if (typedName.length < fullName.length) {
-      timeout = setTimeout(() => {
-        setTypedName(fullName.substring(0, typedName.length + 1));
-      }, 100); 
-    } else {
-      timeout = setTimeout(() => setNameFinished(true), 500); 
-    }
-    return () => clearTimeout(timeout);
-  }, [typedName, fullName]);
-
-  // 2. Type Roles Loop Sequence
-  useEffect(() => {
-    if (!nameFinished) return; 
+    if (!mounted) return;
 
     const currentRole = roles[roleIndex];
     let timeout;
@@ -91,49 +75,51 @@ const Hero = () => {
       setRoleIndex((r) => (r + 1) % roles.length);
     }
     return () => clearTimeout(timeout);
-  }, [typedRole, isDeletingRole, roleIndex, nameFinished, roles]);
+  }, [typedRole, isDeletingRole, roleIndex, mounted, roles]);
 
   return (
     <section
       id="hero"
-      className="min-h-screen flex flex-col justify-center items-center text-center relative overflow-hidden px-6 bg-black"
+      className="min-h-screen flex flex-col justify-center items-center text-center relative overflow-hidden px-6 bg-[var(--bg-color)] pt-20"
     >
-      <div className={`relative z-10 max-w-5xl w-full flex flex-col items-center mt-20 transition-all duration-1000 ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+      <div className="relative z-10 max-w-5xl w-full flex flex-col items-center mt-12 sm:mt-20 reveal">
 
-        {/* 🧑‍💻 Heading (Plain text typed) */}
-        <div className="flex justify-center mb-4 min-h-[1.2em]">
-          <h1 className="text-[clamp(3.5rem,8vw,7rem)] font-extrabold tracking-tight leading-[1.05] text-[#f5f5f7]">
-            {typedName}
+        {/* Name Premium Reveal Animation Container */}
+        <div className="mb-4 sm:mb-6 min-h-[1.5em] w-full flex justify-center items-center">
+          <h1 className="relative flex items-center justify-center text-[clamp(2.5rem,6vw,7rem)] sm:text-[clamp(3.5rem,8vw,7rem)] font-extrabold tracking-tight leading-none text-[var(--text-primary)]">
+            {mounted && fullName.split('').map((char, index) => (
+              <span
+                key={index}
+                className="name-letter whitespace-pre"
+                style={{ animationDelay: `${index * 0.06}s` }}
+              >
+                {char}
+              </span>
+            ))}
           </h1>
-          {/* Subtle cursor follows the reveal */}
-          {!nameFinished && (
-            <span 
-              className="inline-block w-[4px] bg-white animate-pulse"
-              style={{ height: 'clamp(3rem, 7vw, 6rem)', marginTop: 'clamp(0.25rem, 0.5vw, 0.5rem)', marginLeft: '8px' }}
-            />
-          )}
         </div>
 
         {/* 🌟 Sub-heading (Role with Loop Typing Animation, NO symbols) */}
-        <div className={`text-xl sm:text-3xl font-medium tracking-tight mb-6 flex items-center justify-center min-h-[40px] transition-opacity duration-1000 ${nameFinished ? 'opacity-100' : 'opacity-0'}`}>
-          <span className="text-[#a1a1a6] text-center whitespace-nowrap">
+        <div className={`text-xl sm:text-3xl font-medium tracking-tight mb-6 flex items-center justify-center min-h-[1.5em] transition-opacity duration-1000 delay-300 ${mounted ? 'opacity-100' : 'opacity-0'}`}>
+          <span className="text-[var(--text-secondary)] text-center whitespace-nowrap">
             {typedRole}
+            {mounted && (
+              <span className="inline-block w-[2px] h-[0.8em] bg-[var(--text-secondary)] ml-1.5 animate-pulse align-middle" />
+            )}
           </span>
-          {nameFinished && (
-            <span className="inline-block w-[3px] h-6 sm:h-8 bg-[#86868b] ml-2 animate-pulse align-middle" />
-          )}
         </div>
 
         {/* 📝 Short Intro */}
-        <p className={`text-base sm:text-xl text-[#86868b] font-light max-w-2xl mb-12 leading-relaxed transition-all duration-1000 delay-500 ${nameFinished ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
+        <p className={`text-base sm:text-xl text-[var(--text-secondary)] font-light max-w-2xl mb-12 leading-relaxed transition-all duration-1000 delay-500 ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
           Passionate about distributed systems, real-world products and clean UI experiences.
         </p>
 
         {/* 🚀 CTA Buttons */}
-        <div className={`flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-5 w-full sm:w-auto mb-16 transition-all duration-1000 delay-[700ms] ${nameFinished ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
+        <div className={`flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-5 w-full sm:w-auto mb-16 transition-all duration-1000 delay-[700ms] ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
           <a
             href="#projects"
-            className="group flex items-center justify-center gap-2 bg-white text-black px-8 py-3.5 rounded-full font-semibold text-[15px] tracking-wide hover:scale-[1.03] active:scale-95 transition-all duration-300 w-full sm:w-auto"
+            onClick={(e) => window.lenis?.scrollTo('#projects')}
+            className="group flex items-center justify-center gap-2 bg-[var(--text-primary)] text-[var(--bg-color)] px-8 py-3.5 rounded-full font-semibold text-[15px] tracking-wide hover:scale-[1.03] active:scale-95 transition-all duration-300 w-full sm:w-auto"
           >
             <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M14 5l7 7m0 0l-7 7m7-7H3" />
@@ -141,9 +127,9 @@ const Hero = () => {
             View Projects
           </a>
           <a
-            href="/resume.pdf"
+            href="/Vikash CV.pdf"
             download
-            className="group flex items-center justify-center gap-2 bg-black text-white border border-white/20 px-8 py-3.5 rounded-full font-semibold text-[15px] tracking-wide hover:border-white/60 hover:bg-white/10 hover:scale-[1.03] active:scale-95 transition-all duration-300 w-full sm:w-auto"
+            className="group flex items-center justify-center gap-2 bg-[var(--bg-color)] text-[var(--text-primary)] border border-[var(--border-color)] px-8 py-3.5 rounded-full font-semibold text-[15px] tracking-wide hover:border-[var(--text-secondary)] hover:bg-[var(--text-primary)]/5 hover:scale-[1.03] active:scale-95 transition-all duration-300 w-full sm:w-auto"
           >
             <svg className="w-4 h-4 group-hover:-translate-y-1 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
@@ -152,7 +138,8 @@ const Hero = () => {
           </a>
           <a
             href="#contact"
-            className="group flex items-center justify-center gap-2 bg-black text-white border border-white/20 px-8 py-3.5 rounded-full font-semibold text-[15px] tracking-wide hover:border-white/60 hover:bg-white/10 hover:scale-[1.03] active:scale-95 transition-all duration-300 w-full sm:w-auto"
+            onClick={(e) => window.lenis?.scrollTo('#contact')}
+            className="group flex items-center justify-center gap-2 bg-[var(--bg-color)] text-[var(--text-primary)] border border-[var(--border-color)] px-8 py-3.5 rounded-full font-semibold text-[15px] tracking-wide hover:border-[var(--text-secondary)] hover:bg-[var(--text-primary)]/10 hover:scale-[1.03] active:scale-95 transition-all duration-300 w-full sm:w-auto"
           >
             <MailIcon />
             Contact Me
@@ -160,22 +147,22 @@ const Hero = () => {
         </div>
 
         {/* 🛠️ Tech Stack Highlight Row (Monochrome Style Icon-Only emphasis) */}
-        <div className={`w-full flex flex-col items-center border-t border-white/[0.1] pt-10 mb-12 transition-all duration-1000 delay-[900ms] ${nameFinished ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
-          <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[#86868b] mb-8">Core Technologies</p>
+        <div className={`w-full flex flex-col items-center border-t border-[var(--border-color)] pt-10 mb-12 transition-all duration-1000 delay-[900ms] ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
+          <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[var(--text-secondary)] mb-8">Core Technologies</p>
           <div className="flex flex-wrap justify-center gap-6 sm:gap-8 opacity-90 hover:opacity-100 transition-opacity duration-500">
             {techStack.map(tech => (
               <div key={tech.name} className="flex flex-col items-center gap-2 group cursor-pointer" title={tech.name}>
-                <div className="w-14 h-14 rounded-2xl bg-black border border-white/20 flex items-center justify-center group-hover:scale-110 group-hover:border-white/60 transition-all duration-300 shadow-xl">
-                   <img src={tech.icon} alt={tech.name} className="w-7 h-7 drop-shadow-lg transition-transform duration-300 group-hover:scale-110" />
+                <div className="w-14 h-14 rounded-2xl bg-[var(--bg-color)] border border-[var(--border-color)] flex items-center justify-center group-hover:scale-110 group-hover:border-[var(--text-secondary)] transition-all duration-300 shadow-xl">
+                  <img src={tech.icon} alt={tech.name} className="w-7 h-7 drop-shadow-lg transition-transform duration-300 group-hover:scale-110" />
                 </div>
-                <span className="text-[11px] text-[#86868b] group-hover:text-white font-medium tracking-wide transition-colors">{tech.name}</span>
+                <span className="text-[11px] text-[var(--text-secondary)] group-hover:text-[var(--text-primary)] font-medium tracking-wide transition-colors">{tech.name}</span>
               </div>
             ))}
           </div>
         </div>
 
         {/* 🔗 Social Icons (Monochrome) */}
-        <div className={`flex items-center justify-center gap-4 transition-all duration-1000 delay-[1100ms] ${nameFinished ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
+        <div className={`flex items-center justify-center gap-4 transition-all duration-1000 delay-[1100ms] ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
           {socials.map(({ label, href, icon }) => (
             <a
               key={label}
@@ -184,7 +171,7 @@ const Hero = () => {
               rel="noopener noreferrer"
               aria-label={label}
               title={label}
-              className={`flex items-center justify-center w-11 h-11 rounded-full border border-white/20 bg-black text-[#86868b] transition-all duration-300 hover:scale-110 active:scale-95 hover:text-white hover:border-white/60`}
+              className={`flex items-center justify-center w-11 h-11 rounded-full border border-[var(--border-color)] bg-[var(--bg-color)] text-[var(--text-secondary)] transition-all duration-300 hover:scale-110 active:scale-95 hover:text-[var(--text-primary)] hover:border-[var(--text-secondary)]`}
             >
               {icon}
             </a>

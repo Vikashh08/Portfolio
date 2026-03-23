@@ -26,8 +26,8 @@ const Socials = () => {
     },
     {
       name: 'Instagram',
-      username: '@vikash.08',
-      url: 'https://instagram.com/vikash.08',
+      username: '@__vikashh06__',
+      url: 'https://www.instagram.com/__vikashh06__/',
       color: '#E1306C',
       icon: (
         <svg viewBox="0 0 24 24" className="w-12 h-12 fill-current">

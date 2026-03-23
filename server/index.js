@@ -31,6 +31,10 @@ app.post('/api/contact', (req, res) => {
   res.status(200).json({ success: true, message: "Thank you for reaching out! I'll get back to you soon." });
 });
 
-app.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`);
-});
+if (process.env.NODE_ENV !== 'production') {
+  app.listen(PORT, () => {
+    console.log(`Server running on http://localhost:${PORT}`);
+  });
+}
+
+module.exports = app;

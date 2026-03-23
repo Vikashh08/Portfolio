@@ -1,39 +1,82 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 
 const Certificates = () => {
   const certs = [
-    { title: "Node.js (Intermediate)", provider: "HackerRank Certified", date: "Feb 2026", link: "#" },
-    { title: "Cloud Computing", provider: "NPTEL", date: "Oct 2025", link: "#" },
-    { title: "Programming in Java", provider: "iamneo", date: "May 2025", link: "#" },
-    { title: "Data Structures and Algorithms", provider: "iamneo", date: "Dec 2024", link: "#" }
+    {
+      title: "Node.js (Intermediate)",
+      provider: "HackerRank",
+      date: "Feb 2026",
+      link: "https://drive.google.com/file/d/1jU_JDw3oSII_HqbZMJ6WhhYpP_d3658f/view",
+      accent: "#68a063",
+    },
+    {
+      title: "Cloud Computing",
+      provider: "NPTEL",
+      date: "Oct 2025",
+      link: "https://drive.google.com/file/d/17oGhr5VUbcgvvkg94W_XsFYu_GWNvnNy/view",
+      accent: "#4285f4",
+    },
+    {
+      title: "Programming in Java",
+      provider: "iamneo",
+      date: "May 2025",
+      link: "https://drive.google.com/file/d/1NZ40qvJCKBPzAZX7XjGGOIzauBdGV0si/view",
+      accent: "#f89820",
+    },
+    {
+      title: "Data Structures & Algorithms",
+      provider: "iamneo",
+      date: "Dec 2024",
+      link: "https://drive.google.com/file/d/1Cgbs3XOIdXrhytuNnw6HDYWXOyqKOQ_E/view",
+      accent: "#a855f7",
+    },
   ];
 
   return (
-    <section id="certificates" className="section bg-[#050505] px-6 py-24 fade-in-up">
-      <div className="max-w-[1080px] mx-auto">
-        <h2 className="text-4xl md:text-6xl font-bold tracking-tight mb-16 text-[#f5f5f7] border-b border-white/10 pb-8 text-center md:text-left">Licenses & Certifications.</h2>
-        
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <section id="certificates" className="py-24 relative overflow-hidden bg-[var(--bg-color)] reveal">
+      {/* Background */}
+      <div className="absolute inset-0 z-0 pointer-events-none opacity-[0.15]">
+        <div className="absolute inset-0 bg-[radial-gradient(var(--text-primary)_0.8px,transparent_0.8px)] [background-size:24px_24px]"></div>
+        <div className="absolute inset-0 bg-gradient-to-b from-[var(--bg-color)] via-transparent to-[var(--bg-color)]"></div>
+      </div>
+
+      <div className="max-w-[1240px] mx-auto px-6 relative z-10">
+        {/* Header */}
+        <div className="mb-16 text-center sm:text-left">
+          <h2 className="text-3xl md:text-5xl font-bold text-[var(--text-primary)] tracking-tight mb-4">Certifications</h2>
+          
+        </div>
+
+        {/* Cert Rows — clean horizontal strips */}
+        <div className="flex flex-col gap-4">
           {certs.map((c, i) => (
-            <a key={i} href={c.link} className="bg-[#1d1d1f] p-8 rounded-[30px] border border-white/[0.05] flex items-center gap-6 group hover:bg-[#2d2d2f] hover:border-[#0071e3]/30 transition-all hover:-translate-y-1 shadow-md hover:shadow-2xl relative overflow-hidden">
-               <div className="absolute top-0 right-0 w-32 h-32 bg-[#0071e3]/[0.05] rounded-full blur-[40px] group-hover:bg-[#0071e3]/[0.1] transition-colors -translate-y-1/2 translate-x-1/2"></div>
-               
-               <div className="bg-black/50 p-4 rounded-full border border-white/5 group-hover:scale-110 transition-transform flex-shrink-0 shadow-inner">
-                  <svg className="w-8 h-8 text-[#0071e3]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
-                  </svg>
-               </div>
-               
-               <div className="flex flex-col flex-grow z-10">
-                  <h4 className="text-white font-bold text-xl leading-tight mb-2 group-hover:text-[#0071e3] transition-colors">{c.title}</h4>
-                  <div className="flex justify-between items-center w-full">
-                    <h5 className="text-[#a1a1a6] text-sm font-medium">{c.provider}</h5>
-                    <span className="text-[#86868b] text-[10px] uppercase tracking-widest font-bold bg-white/5 border border-white/5 px-3 py-1.5 rounded-full">{c.date}</span>
-                  </div>
-                  <div className="mt-4 flex items-center text-xs text-[#0071e3] font-medium opacity-0 group-hover:opacity-100 transition-opacity -translate-x-2 group-hover:translate-x-0 duration-300">
-                    Verify Credential <span className="ml-1">↗</span>
-                  </div>
-               </div>
+            <a
+              key={i}
+              href={c.link}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group/row transition-all duration-700"
+              style={{ transitionDelay: `${i * 100}ms` }}
+            >
+              <div className="relative flex items-center gap-6 px-6 md:px-8 py-5 rounded-2xl border border-[var(--border-color)] bg-[var(--bg-secondary)] light-mode:bg-white hover:bg-[var(--bg-color)] hover:border-[var(--text-secondary)]/30 transition-all duration-400 overflow-hidden shadow-sm light-mode:shadow-md">
+                {/* Left accent bar */}
+                <div className="absolute left-0 top-0 bottom-0 w-[3px] rounded-l-2xl transition-all duration-500 opacity-40 group-hover/row:opacity-100" style={{ backgroundColor: c.accent }}></div>
+
+                {/* Accent dot */}
+                <div className="flex-shrink-0 w-3 h-3 rounded-full transition-transform duration-500 group-hover/row:scale-125" style={{ backgroundColor: c.accent, boxShadow: `0 0 12px ${c.accent}55` }}></div>
+
+                {/* Title & Provider */}
+                <div className="flex-grow min-w-0">
+                  <h3 className="text-base md:text-lg font-bold text-[var(--text-primary)] tracking-tight truncate group-hover/row:translate-x-1 transition-transform duration-400">{c.title}</h3>
+                  <p className="text-xs text-[var(--text-secondary)] mt-0.5 font-medium">{c.provider}</p>
+                </div>
+
+                {/* Date */}
+                <span className="flex-shrink-0 text-[10px] text-[var(--text-secondary)] font-bold uppercase tracking-[0.15em] hidden md:block">{c.date}</span>
+
+                {/* Arrow */}
+                <span className="flex-shrink-0 text-sm text-[var(--text-secondary)] group-hover/row:text-[var(--text-primary)] group-hover/row:translate-x-1 transition-all duration-300">↗</span>
+              </div>
             </a>
           ))}
         </div>

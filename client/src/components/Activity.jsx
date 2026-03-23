@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
+import { SiLeetcode, SiCodechef, SiCodeforces, SiHackerrank, SiGeeksforgeeks } from "react-icons/si";
 
 const Activity = () => {
   const [profile, setProfile] = useState(null);
   const [repos, setRepos] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [hoveredIndex, setHoveredIndex] = useState(null);
 
   useEffect(() => {
     const fetchGitHubData = async () => {
@@ -12,7 +14,7 @@ const Activity = () => {
         const profileData = await profileRes.json();
         setProfile(profileData);
 
-        const reposRes = await fetch('https://api.github.com/users/Vikashh08/repos?sort=updated&per_page=6');
+        const reposRes = await fetch('https://api.github.com/users/Vikashh08/repos?sort=updated&per_page=3');
         const reposData = await reposRes.json();
         setRepos(reposData);
         
@@ -26,161 +28,183 @@ const Activity = () => {
   }, []);
 
   return (
-    <section id="activity" className="section px-6 py-24 bg-black fade-in-up">
-      <div className="text-center mb-20 max-w-[980px] mx-auto">
-        <h2 className="text-4xl md:text-6xl font-bold tracking-tight mb-4 text-[#f5f5f7]">Development Activity.</h2>
-        <p className="text-xl md:text-2xl text-[#86868b] font-light">Live open-source repositories and algorithmic problem-solving matrices.</p>
+    <section id="activity" className="py-24 relative overflow-hidden bg-[var(--bg-color)] reveal">
+      {/* Background Effect */}
+      <div className="absolute inset-0 z-0 pointer-events-none opacity-[0.15]">
+        <div className="absolute inset-0 bg-[radial-gradient(var(--text-primary)_0.8px,transparent_0.8px)] [background-size:24px_24px]"></div>
+        <div className="absolute inset-0 bg-gradient-to-b from-[var(--bg-color)] via-transparent to-[var(--bg-color)]"></div>
       </div>
 
-      <div className="max-w-[1080px] mx-auto flex flex-col gap-8">
+      <div className="max-w-[1240px] mx-auto px-6 relative z-10 text-center sm:text-left mb-16">
+        <div className="mb-12">
+          <h2 className="text-3xl md:text-5xl font-bold text-[var(--text-primary)] tracking-tight mb-4">Open Source Contribution</h2>
+          <div className="h-0.5 w-12 bg-[#0071e3] rounded-full"></div>
+        </div>
+        <p className="text-sm sm:text-base text-[var(--text-secondary)] font-normal leading-relaxed max-w-2xl">
+          Tracing my engineering footprint and algorithmic growth across the development landscape.
+        </p>
+      </div>
+
+      <div className="max-w-[1240px] mx-auto px-6 flex flex-col gap-12 relative z-10">
         
-        {/* Apple-style Widget Card: Live GitHub API */}
-        <div className="bg-[#1d1d1f] rounded-[40px] p-8 md:p-12 border border-white/[0.05] flex flex-col relative overflow-hidden group w-full">
-          <div className="absolute top-0 right-0 w-96 h-96 bg-white/[0.02] rounded-full blur-[80px] group-hover:bg-blue-500/[0.05] transition-colors -translate-y-1/2 translate-x-1/2"></div>
-          
-          <div className="relative z-10 flex flex-col w-full">
-            <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-12">
-               <div>
-                 <h3 className="text-3xl font-semibold text-[#f5f5f7] mb-2 flex items-center gap-3">
-                   <svg viewBox="0 0 24 24" className="w-8 h-8 fill-current text-[#a1a1a6]"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
-                   <span>GitHub Activity</span>
-                 </h3>
-                 <p className="text-[#86868b] text-lg">Continuous integration and open-source contributions.</p>
-               </div>
-               
-               <div className="flex gap-4 hidden sm:flex">
-                  <div className="bg-black/50 px-6 py-4 rounded-3xl border border-white/5 flex flex-col items-center min-w-[100px] hover:border-white/10 transition-colors">
-                     <span className="block text-3xl font-bold text-white mb-1">{profile?.public_repos || 0}</span>
-                     <span className="text-[10px] text-[#86868b] uppercase tracking-widest font-semibold">Repos</span>
-                  </div>
-                  <div className="bg-black/50 px-6 py-4 rounded-3xl border border-white/5 flex flex-col items-center min-w-[100px] hover:border-white/10 transition-colors">
-                     <span className="block text-3xl font-bold text-white mb-1">{profile?.followers || 0}</span>
-                     <span className="text-[10px] text-[#86868b] uppercase tracking-widest font-semibold">Followers</span>
-                  </div>
-               </div>
+        {/* Profile Snapshot Header */}
+        <div className="flex flex-col md:flex-row items-center justify-between gap-8 pb-12 border-b border-[var(--border-color)]">
+          <div className="flex flex-col sm:flex-row items-center gap-6">
+            <div className="w-20 h-20 rounded-3xl overflow-hidden border-2 border-[var(--border-color)] p-1 group-hover:border-[var(--text-secondary)] transition-all duration-500 shadow-2xl bg-[var(--bg-secondary)]">
+               <img src={profile?.avatar_url || "/VikashProfile.png"} alt="Profile" className="w-full h-full object-cover rounded-[1.25rem] grayscale" />
             </div>
-
-            {loading ? (
-               <div className="w-full h-64 flex flex-col items-center justify-center space-y-4">
-                  <div className="w-8 h-8 border-2 border-white/20 border-t-[#0071e3] rounded-full animate-spin"></div>
-                  <div className="text-[#86868b] text-sm animate-pulse">Syncing repositories...</div>
-               </div>
-            ) : (
-               <div className="flex flex-col gap-10">
-                  {/* Contribution Graph - Neon Intensity */}
-                  <div className="w-full overflow-x-auto rounded-[32px] bg-black/40 border border-white/[0.05] p-6 flex flex-col items-center justify-center hidden md:flex hover:border-white/10 transition-colors">
-                    <img 
-                      src={`https://ghchart.rshah.org/39d353/Vikashh08`} 
-                      alt="GitHub Contribution Graph" 
-                      className="w-full max-w-[850px] opacity-100 drop-shadow-[0_0_12px_rgba(57,211,83,0.4)]"
-                    />
-                  </div>
-
-                  {/* Clean Typography-Driven Repositories Grid - Compact Sizes */}
-                  <div>
-                    <div className="flex items-center justify-between mb-6">
-                      <h4 className="text-sm text-[#a1a1a6] font-medium tracking-widest uppercase">Latest Repositories</h4>
-                      <a href="https://github.com/Vikashh08?tab=repositories" target="_blank" rel="noopener noreferrer" className="text-[12px] text-white hover:text-[#39d353] font-bold hidden md:flex items-center gap-1 transition-colors">
-                        View all <span className="transform transition-transform group-hover:translate-x-1">→</span>
-                      </a>
-                    </div>
-                    
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                       {repos.map(repo => {
-                          const getLangColor = (lang) => {
-                             if (!lang) return "bg-gray-500 shadow-[0_0_6px_rgba(107,114,128,0.5)]";
-                             const colorMap = {
-                                "JavaScript": "bg-yellow-400 shadow-[0_0_6px_rgba(250,204,21,0.5)]",
-                                "C++": "bg-blue-500 shadow-[0_0_6px_rgba(59,130,246,0.5)]",
-                                "Java": "bg-orange-500 shadow-[0_0_6px_rgba(249,115,22,0.5)]",
-                                "Python": "bg-blue-400 shadow-[0_0_6px_rgba(96,165,250,0.5)]",
-                                "HTML": "bg-red-500 shadow-[0_0_6px_rgba(239,68,68,0.5)]",
-                                "CSS": "bg-blue-300 shadow-[0_0_6px_rgba(147,197,253,0.5)]"
-                             };
-                             return colorMap[lang] || "bg-emerald-500 shadow-[0_0_6px_rgba(16,185,129,0.5)]";
-                          };
-
-                          return (
-                            <a key={repo.id} href={repo.html_url} target="_blank" rel="noopener noreferrer" className="group/card flex flex-col justify-between bg-black/40 hover:bg-[#111111] p-5 rounded-[18px] border border-white/[0.05] hover:border-white/[0.15] transition-all duration-300 hover:-translate-y-1 relative overflow-hidden shadow-lg h-full">
-                              
-                              {/* Ambient Mesh Glow */}
-                              <div className="absolute top-0 right-0 w-24 h-24 bg-white/[0.02] rounded-full blur-[20px] group-hover/card:bg-white/[0.05] transition-colors pointer-events-none -translate-y-1/2 translate-x-1/2"></div>
-                              
-                              <div className="relative z-10 w-full mb-5">
-                                <div className="flex items-start justify-between mb-4">
-                                  <div className="flex bg-[#222222] p-2 rounded-xl border border-white/5 group-hover/card:bg-white/10 group-hover/card:scale-105 transition-all duration-300">
-                                    <svg className="w-5 h-5 text-[#f5f5f7]" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"/></svg>
-                                  </div>
-                                  <svg className="w-4 h-4 text-[#86868b] group-hover/card:text-white transition-colors transform group-hover/card:translate-x-1 group-hover/card:-translate-y-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
-                                </div>
-                                
-                                <h3 className="text-base font-bold text-[#f5f5f7] mb-2 group-hover/card:text-white tracking-tight line-clamp-1">{repo.name}</h3>
-                                <p className="text-[13px] text-[#86868b] leading-relaxed line-clamp-2">{repo.description || 'A highly optimized developer repository.'}</p>
-                              </div>
-                              
-                              <div className="mt-auto flex items-center justify-between border-t border-white/[0.05] pt-4 relative z-10 w-full">
-                                <div className="flex items-center gap-2">
-                                  <span className={`w-2 h-2 rounded-full ${getLangColor(repo.language)}`}></span>
-                                  <span className="text-[10px] font-bold text-[#a1a1a6] tracking-wider uppercase">{repo.language || 'Code'}</span>
-                                </div>
-                                
-                                <div className="flex items-center gap-3 text-[11px] font-bold text-[#a1a1a6]">
-                                  <div className="flex items-center gap-1 hover:text-white transition-colors">
-                                    <svg className="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 16 16"><path fillRule="evenodd" d="M8 .25a.75.75 0 01.673.418l1.882 3.815 4.21.612a.75.75 0 01.416 1.279l-3.046 2.97.719 4.192a.75.75 0 01-1.088.791L8 12.347l-3.766 1.98a.75.75 0 01-1.088-.79l.72-4.194L.818 6.374a.75.75 0 01.416-1.28l4.21-.611L7.327.668A.75.75 0 018 .25z"></path></svg>
-                                    <span>{repo.stargazers_count}</span>
-                                  </div>
-                                  <div className="flex items-center gap-1 hover:text-white transition-colors">
-                                    <svg className="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 16 16"><path fillRule="evenodd" d="M5 3.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm0 2.122a2.25 2.25 0 10-1.5 0v.878A2.25 2.25 0 005.75 8.5h1.5v2.128a2.251 2.251 0 101.5 0V8.5h1.5a2.25 2.25 0 002.25-2.25v-.878a2.25 2.25 0 10-1.5 0v.878a.75.75 0 01-.75.75h-4.5A.75.75 0 015 6.25v-.878zm3.75 7.378a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm3-8.75a.75.75 0 100-1.5.75.75 0 000 1.5z"></path></svg>
-                                    <span>{repo.forks_count}</span>
-                                  </div>
-                                </div>
-                              </div>
-                            </a>
-                          )
-                       })}
-                    </div>
-                    
-                    <div className="mt-8 flex justify-center md:hidden">
-                       <a href="https://github.com/Vikashh08" target="_blank" rel="noopener noreferrer" className="inline-flex items-center text-white bg-[#0071e3] hover:bg-[#0077ED] px-6 py-3 rounded-full font-medium transition-colors text-sm">
-                         View Full Profile <span className="ml-2">→</span>
-                       </a>
-                    </div>
-                  </div>
-               </div>
-            )}
+            <div className="text-center sm:text-left">
+               <h3 className="text-2xl font-bold text-[var(--text-primary)] mb-1 tracking-tight">{profile?.name || "Vikash Kumar"}</h3>
+               <p className="text-[var(--text-secondary)] text-sm font-medium tracking-wide uppercase">{profile?.bio || "Software Engineer"}</p>
+            </div>
+          </div>
+          <div className="flex items-center gap-3 sm:gap-4 overflow-x-auto w-full md:w-auto justify-center">
+             <div className="bg-[var(--bg-secondary)] px-5 sm:px-6 py-4 rounded-3xl border border-[var(--border-color)] flex flex-col items-center min-w-[100px] sm:min-w-[110px] hover:bg-[var(--bg-color)] transition-all shadow-sm">
+                <span className="text-2xl font-bold text-[var(--text-primary)] mb-0.5">{profile?.public_repos || 0}</span>
+                <span className="text-[10px] text-[var(--text-secondary)] uppercase tracking-[0.2em] font-bold">Projects</span>
+             </div>
+             <div className="bg-[var(--bg-secondary)] px-5 sm:px-6 py-4 rounded-3xl border border-[var(--border-color)] flex flex-col items-center min-w-[100px] sm:min-w-[110px] hover:bg-[var(--bg-color)] transition-all shadow-sm">
+                <span className="text-2xl font-bold text-[var(--text-primary)] mb-0.5">{profile?.followers || 0}</span>
+                <span className="text-[10px] text-[var(--text-secondary)] uppercase tracking-[0.2em] font-bold">Network</span>
+             </div>
           </div>
         </div>
 
-        {/* Apple-style Widget Card: Leetcode */}
-        <div className="bg-[#1d1d1f] rounded-[40px] p-8 md:p-12 border border-white/[0.05] flex flex-col lg:flex-row relative overflow-hidden group w-full gap-10 items-center">
-          <div className="absolute top-0 left-0 w-[500px] h-[500px] bg-[#FFA116]/[0.03] rounded-full blur-[100px] group-hover:bg-[#FFA116]/[0.06] transition-colors -translate-y-1/2 -translate-x-1/4"></div>
-          
-          <div className="relative z-10 flex-col flex w-full lg:w-5/12 justify-center text-center lg:text-left">
-            <h3 className="text-3xl font-semibold text-[#f5f5f7] mb-4 flex items-center justify-center lg:justify-start gap-3">
-              <svg viewBox="0 0 24 24" className="w-8 h-8 fill-current text-[#FFA116]"><path d="M16.102 1.325l-9.157 5.286c-.524.303-.524 1.05 0 1.353l9.157 5.286c.524.303 1.18-.075 1.18-.677V2.002c0-.602-.656-.98-1.18-.677zm-9.04 11.2l-3.23 1.864c-.524.303-.524 1.05 0 1.353l9.157 5.286c.524.303 1.18-.075 1.18-.677V18.49l-7.107-4.103c-.524-.303-.524-1.05 0-1.353z"/></svg>
-              <span>LeetCode</span>
-            </h3>
-            <p className="text-[#86868b] text-xl leading-relaxed mb-8 font-light max-w-md mx-auto lg:mx-0">
-              Sharpening logic optimization and aggressive computational efficiency. Focusing on elegant solutions.
-            </p>
+        {loading ? (
+          <div className="w-full h-64 flex flex-col items-center justify-center space-y-4">
+             <div className="w-10 h-10 border-2 border-[var(--border-color)] border-t-[var(--accent-color)] rounded-full animate-spin"></div>
+             <div className="text-[var(--text-secondary)] text-[10px] font-bold uppercase tracking-[0.3em]">Syncing Activity...</div>
           </div>
+        ) : (
+          <div className="flex flex-col gap-20">
+             
+        {/* Contribution Graph */}
+             <div className="w-full bg-[var(--bg-secondary)] light-mode:bg-white border border-[var(--border-color)] rounded-[2.5rem] p-8 md:p-14 flex flex-col items-center justify-center hidden md:flex hover:border-[var(--text-secondary)]/30 transition-all duration-700 shadow-xl light-mode:shadow-2xl relative overflow-hidden group/graph backdrop-blur-3xl">
+               <div className="absolute top-0 right-0 w-full h-full bg-gradient-to-br from-[var(--text-primary)]/[0.01] to-transparent pointer-events-none"></div>
+               <div className="flex items-center justify-between w-full mb-12 px-2">
+                 <div className="flex items-center gap-3">
+                   <div className="w-2.5 h-2.5 rounded-full bg-[#39d353] shadow-[0_0_15px_#39d353] animate-pulse"></div>
+                   <h4 className="text-[11px] text-[var(--text-primary)] font-bold uppercase tracking-[0.4em]">GitHub Activity Graph</h4>
+                 </div>
+                 <div className="flex items-center gap-2 px-3 py-1 rounded-full bg-[#39d353]/10 border border-[#39d353]/20">
+                   <span className="text-[9px] text-[#39d353] font-bold uppercase tracking-widest">Live Flow</span>
+                 </div>
+               </div>
+               <div className="w-full relative flex flex-col items-center">
+                  <img 
+                    src={`https://ghchart.rshah.org/39d353/Vikashh08`} 
+                    alt="GitHub Contribution Graph" 
+                    className="w-full max-w-[850px] opacity-100 filter saturate-[1.2] drop-shadow-[0_0_20px_rgba(57,211,83,0.15)] group-hover/graph:scale-[1.01] transition-transform duration-1000"
+                  />
+                  <div className="w-full max-w-[850px] text-right text-[10px] text-[var(--text-secondary)] font-bold mt-6 tracking-widest uppercase">
+                    Active Horizon: January — December
+                  </div>
+               </div>
+             </div>
 
-          <div className="relative z-10 w-full lg:w-7/12 flex items-center justify-center">
-            <div className="grid grid-cols-2 gap-4 w-full h-full max-h-[350px]">
-              <div className="bg-gradient-to-br from-black/80 to-[#1a1a1a] p-8 md:p-10 rounded-[32px] border border-white/[0.05] flex flex-col justify-center items-center shadow-lg transform transition-transform group-hover:-translate-y-1 hover:border-[#FFA116]/30">
-                <span className="text-5xl md:text-7xl font-bold text-white mb-3">310<span className="text-[#FFA116] text-4xl md:text-6xl">+</span></span>
-                <span className="text-[10px] md:text-xs text-[#86868b] uppercase tracking-[0.2em] font-medium text-center">Problems Solved</span>
-              </div>
-              <div className="bg-gradient-to-br from-black/80 to-[#1a1a1a] p-5 md:p-8 rounded-[32px] border border-white/[0.05] flex flex-col justify-center items-center shadow-lg transform transition-transform group-hover:translate-y-1 hover:border-[#FFA116]/30 text-center gap-1">
-                <span className="text-3xl md:text-5xl font-bold text-[#FFA116] leading-tight mb-2 flex items-center gap-2">
-                   C++<span className="text-white/20 font-light text-2xl md:text-4xl">&</span>Java
-                </span>
-                <span className="text-[10px] md:text-xs text-[#86868b] uppercase tracking-[0.2em] font-medium text-center mt-3">Core Stack</span>
-              </div>
-            </div>
+             {/* Latest Repositories */}
+             <div>
+                <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
+                   <div className="text-left">
+                      <h4 className="text-[11px] text-[var(--text-secondary)] font-bold tracking-[0.4em] uppercase mb-3 text-apple-gradient">Engineering Trace</h4>
+                      <h3 className="text-2xl font-bold text-[var(--text-primary)] tracking-tight">Latest Repositories</h3>
+                   </div>
+                   <a href="https://github.com/Vikashh08" target="_blank" rel="noopener noreferrer" className="group/btn inline-flex items-center text-[11px] font-bold text-[var(--text-primary)] tracking-[0.2em] uppercase hover:text-[#0071e3] transition-colors">
+                      View all Repos <span className="text-lg ml-2 group-hover/btn:translate-x-1 transition-transform">→</span>
+                   </a>
+                </div>
+                
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                   {repos.map((repo, idx) => {
+                      const getLangColor = (lang) => {
+                        if (!lang) return "#888888";
+                        const colorMap = {
+                          "JavaScript": "#f7df1e", "C++": "#00599c", "Java": "#b07219", "Python": "#3776ab",
+                          "HTML": "#e34c26", "CSS": "#264de4", "React": "#61dafb", "TypeScript": "#3178c6"
+                        };
+                        return colorMap[lang] || "#0071e3";
+                      };
+
+                      return (
+                        <a 
+                          key={repo.id} 
+                          href={repo.html_url} 
+                          target="_blank" 
+                          rel="noopener noreferrer" 
+                          onMouseEnter={() => setHoveredIndex(idx)}
+                          onMouseLeave={() => setHoveredIndex(null)}
+                          className="group/glass flex flex-col bg-[var(--bg-secondary)] light-mode:bg-white border border-[var(--border-color)] p-8 rounded-[2.5rem] backdrop-blur-3xl hover:border-[var(--text-secondary)]/30 transition-all duration-500 relative overflow-hidden shadow-xl light-mode:shadow-2xl h-full"
+                        >
+                          <div className="relative z-10 flex flex-col h-full">
+                            <div className="flex items-center justify-between mb-10">
+                              <div className="p-3.5 bg-[var(--bg-color)] rounded-2xl border border-[var(--border-color)] group-hover/glass:border-[var(--text-secondary)] transition-all">
+                                 <svg className="w-5 h-5 text-[var(--text-secondary)]" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>
+                              </div>
+                              <div className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-[var(--bg-color)] border border-[var(--border-color)] text-[10px] font-bold text-[var(--text-secondary)]">
+                                <svg className="w-3.5 h-3.5 text-yellow-500/80" fill="currentColor" viewBox="0 0 16 16"><path d="M8 .25a.75.75 0 01.673.418l1.882 3.815 4.21.612a.75.75 0 01.416 1.279l-3.046 2.97.719 4.192a.75.75 0 01-1.088.791L8 12.347l-3.766 1.98a.75.75 0 01-1.088-.79l.72-4.194L.818 6.374a.75.75 0 01.416-1.28l4.21-.611L7.327.668A.75.75 0 018 .25z"/></svg>
+                                <span>{repo.stargazers_count}</span>
+                              </div>
+                            </div>
+                            
+                            <h3 className="text-xl font-bold text-[var(--text-primary)] mb-3 tracking-tight group-hover/glass:translate-x-1 transition-transform">{repo.name}</h3>
+                            <p className="text-sm text-[var(--text-secondary)] font-normal leading-relaxed mb-10 flex-grow line-clamp-2">
+                               {repo.description || "Deploying professional engineering standards for optimized software performance."}
+                            </p>
+                            
+                            <div className="mt-auto flex items-center justify-between pt-6 border-t border-[var(--border-color)]">
+                              <div className="flex items-center gap-3">
+                                <div className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: getLangColor(repo.language), boxShadow: `0 0 12px ${getLangColor(repo.language)}44` }}></div>
+                                <span className="text-[10px] font-bold text-[var(--text-secondary)] tracking-[0.2em] uppercase">{repo.language || "Stack"}</span>
+                              </div>
+                              <span className="text-[10px] font-bold text-[var(--text-primary)] opacity-0 group-hover/glass:opacity-100 group-hover/glass:translate-x-1 transition-all">VIEW →</span>
+                            </div>
+                          </div>
+                        </a>
+                      );
+                   })}
+                </div>
+             </div>
+
+             {/* CP Platforms Tile */}
+             <div className="bg-[var(--bg-secondary)] rounded-[3rem] p-10 md:p-16 border-l-2 border-l-[#0071e3] flex flex-col lg:flex-row relative overflow-hidden group w-full gap-12 items-start lg:items-center shadow-sm backdrop-blur-xl border border-[var(--border-color)]">
+               <div className="absolute top-0 right-0 w-80 h-80 bg-[#0071e3]/[0.02] rounded-full blur-[100px] group-hover:bg-[#0071e3]/[0.05] transition-all duration-1000"></div>
+               <div className="relative z-10 flex flex-col w-full lg:w-7/12 text-left">
+                  <h3 className="text-3xl font-bold text-[var(--text-primary)] mb-6 flex items-center gap-5">
+                    <span className="tracking-tight">Competitive Programming</span>
+                  </h3>
+                  <p className="text-[var(--text-secondary)] text-base leading-relaxed mb-10 font-normal max-w-xl">
+                    Demonstrating analytical depth and speed across 350+ solved challenges on the world's most competitive programming architectures.
+                  </p>
+                  <div className="flex flex-wrap gap-6 sm:gap-10">
+                     {[
+                        { icon: SiLeetcode, name: "LeetCode", color: "#FFA116" },
+                        { icon: SiCodechef, name: "CodeChef", color: "#5B4638" },
+                        { icon: SiCodeforces, name: "CodeForces", color: "#1F8ACB" },
+                        { icon: SiHackerrank, name: "HackerRank", color: "#00EA64" },
+                        { icon: SiGeeksforgeeks, name: "GFG", color: "#2F8D46" }
+                     ].map((plat, i) => (
+                        <div key={i} className="flex flex-col items-center gap-3 group/icon cursor-default transform hover:-translate-y-2 transition-all">
+                           <plat.icon className="w-8 h-8 opacity-60 group-hover/icon:opacity-100 transition-opacity" style={{ color: plat.color }} />
+                           <span className="text-[9px] text-[var(--text-secondary)] font-bold tracking-widest uppercase">{plat.name}</span>
+                        </div>
+                     ))}
+                  </div>
+               </div>
+               <div className="relative z-10 w-full lg:w-5/12 flex items-center">
+                  <div className="grid grid-cols-2 gap-10 w-full">
+                     <div className="text-left group/stat">
+                        <div className="text-5xl font-bold text-[var(--text-primary)] mb-2 leading-none tracking-tighter group-hover/stat:text-[#0071e3] transition-colors">350<span className="text-[#0071e3]">+</span></div>
+                        <p className="text-[10px] text-[var(--text-secondary)] font-bold uppercase tracking-[0.2em]">Problems Mastered</p>
+                     </div>
+                     <div className="text-left group/stat">
+                        <div className="text-3xl font-bold text-[var(--text-primary)] opacity-90 mb-2 leading-none tracking-tighter group-hover/stat:text-[#0071e3] transition-colors">C++/JAVA</div>
+                        <p className="text-[10px] text-[var(--text-secondary)] font-bold uppercase tracking-[0.2em]">Core Stack</p>
+                     </div>
+                  </div>
+               </div>
+             </div>
           </div>
-        </div>
-
+        )}
       </div>
     </section>
   );

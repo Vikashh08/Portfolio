@@ -6,8 +6,13 @@
       "destination": "/server/index.js"
     },
     {
-      "source": "/(.*)",
-      "destination": "/client/$1"
+      "source": "/((?!api/).*)",
+      "destination": "/client/dist/$1",
+      "continue": true
+    },
+    {
+      "source": "/((?!api/).*)",
+      "destination": "/client/dist/index.html"
     }
   ]
 }
