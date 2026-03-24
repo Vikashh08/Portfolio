@@ -74,6 +74,16 @@ const Footer = () => {
           <p className="text-[var(--text-secondary)] opacity-50 text-xs text-center md:text-right">
             &copy; 2026 Vikash Kumar. All rights reserved.
           </p>
+           <a
+            href="/Vikash CV.pdf"
+            download
+            className="group flex items-center justify-center gap-2 bg-[var(--bg-color)] text-[var(--text-primary)] border border-[var(--border-color)] px-8 py-3.5 rounded-full font-semibold text-[15px] tracking-wide hover:border-[var(--text-secondary)] hover:bg-[var(--text-primary)]/5 hover:scale-[1.03] active:scale-95 transition-all duration-300 w-full sm:w-auto"
+          >
+            <svg className="w-4 h-4 group-hover:-translate-y-1 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+            </svg>
+            Download Resume
+          </a>
         </div>
       </div>
     </footer>

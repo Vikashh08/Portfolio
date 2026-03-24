@@ -16,7 +16,7 @@ const Projects = () => {
         { name: 'MongoDB', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mongodb/mongodb-original.svg' },
         { name: 'Tailwind', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/tailwindcss/tailwindcss-original.svg'}
       ],
-      link: "https://github.com/Vikashho8",
+      link: "https://github.com/Vikashh08/Spixo-Grocery-Delivery-WebApp-MERN-",
       live: "https://spixouser.vercel.app", 
       image: "/spixo.png"
     },
@@ -32,7 +32,7 @@ const Projects = () => {
         { name: 'MySQL', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg' },
         { name: 'JavaScript', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg' }
       ],
-      link: "https://github.com/Vikashho8",
+      link: "https://github.com/Vikashh08/Marketplace-for-Artist-Website-with-Backend",
       live: "https://artist-marketplace.vercel.app", 
       image: "/artistry.png"
     },
